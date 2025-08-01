@@ -35,6 +35,8 @@ Quit the server with CONTROL-C.
 创建管理员账号：
 python manage.py createsuperuser
 
+pip freeze > requirements.txt
+
 
 ✅ 步骤二：初始化（如果还没）
 如果你还没有初始化 Git 仓库：
@@ -46,7 +48,4 @@ git remote set-url origin https://github.com/tgx75/wenchuang2.0.git
 git add .
 git commit -m "🛠️ 覆写 wenchuang2.0 仓库，上传新版本"
 ✅ 步骤四：强制推送（慎用，会覆盖远程）
-
-git push origin master --force
-⚠️ 如果主分支是 main 而不是 master，就使用：
-git push origin main --force
+git push -u origin master:main --force
