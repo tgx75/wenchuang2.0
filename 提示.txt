@@ -31,3 +31,22 @@ Quit the server with CONTROL-C.
 
 访问项目
 打开浏览器，访问 http://127.0.0.1:8000/，看到 Django 的欢迎页面即表示项目创建成功！
+
+创建管理员账号：
+python manage.py createsuperuser
+
+
+✅ 步骤二：初始化（如果还没）
+如果你还没有初始化 Git 仓库：
+git init
+git remote add origin https://github.com/tgx75/wenchuang2.0.git
+如果你已经初始化并存在远程链接，执行：
+git remote set-url origin https://github.com/tgx75/wenchuang2.0.git
+✅ 步骤三：添加、提交所有更改
+git add .
+git commit -m "🛠️ 覆写 wenchuang2.0 仓库，上传新版本"
+✅ 步骤四：强制推送（慎用，会覆盖远程）
+
+git push origin master --force
+⚠️ 如果主分支是 main 而不是 master，就使用：
+git push origin main --force
