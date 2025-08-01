@@ -1,0 +1,47 @@
+结果查询：
+开放时间与报名时间相同，截至时间延后
+点击跳转输入个人信息，展示结果：
+简历，一面，二面，录取结果
+前一项通过后，后一项才会展示：
+一面通过：展示录取结果
+面试反馈
+
+数据库：https://dashboard.render.com/d/dpg-d268evuuk2gs73bn38i0-a
+怎么在上面创建我的数据库： 需要的数据库：名称wenchuangzhaoxin 
+
+新生申请表：姓名，年级，学号，专业，邮箱，联系方式，第一志愿部门，第二志愿部门，上传的简历pdf，第一志愿面试时间，第二志愿面试时间，第一志愿面试官，第二志愿面试官，简历筛选结果，第一志愿面试状态，第二志愿面试状态，第一志愿面试结果，第二志愿面试结果,，录取结果，录取部门，反馈意见 
+
+
+面试官表格内容：面试官姓名，面试官学号，面试官密码，面试官部门小组，待筛选简历，待面试数，面试官可用的面试时间以及该时间段的面试最大人数：（时间：人数）
+
+
+Connections
+Hostname
+An internal hostname used by your Render services.
+dpg-d268evuuk2gs73bn38i0-a
+
+Port
+5432
+
+Database
+wenchuang
+
+Username
+tgx
+
+Password
+Jhm1dJdbFkPJm46px94itG0AvUrjERqq
+
+
+Internal Database URL
+postgresql://tgx:Jhm1dJdbFkPJm46px94itG0AvUrjERqq@dpg-d268evuuk2gs73bn38i0-a/wenchuang
+
+
+External Database URL
+postgresql://tgx:Jhm1dJdbFkPJm46px94itG0AvUrjERqq@dpg-d268evuuk2gs73bn38i0-a.oregon-postgres.render.com/wenchuang
+
+
+PSQL Command
+PGPASSWORD=Jhm1dJdbFkPJm46px94itG0AvUrjERqq psql -h dpg-d268evuuk2gs73bn38i0-a.oregon-postgres.render.com -U tgx wenchuang
+
+

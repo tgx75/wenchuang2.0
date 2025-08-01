@@ -1,0 +1,833 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/jpeg" href="{% static 'img/logo.jpg' %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>枫径初遇｜秋招Memory Walk - 拾光文创</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* 淡入动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .animate-delay-100 { animation-delay: 0.1s; }
+        .animate-delay-200 { animation-delay: 0.2s; }
+        .animate-delay-300 { animation-delay: 0.3s; }
+        
+        /* 滚动动画 */
+        .scroll-reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+        .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+        
+        /* 按钮状态样式 */
+        .btn-disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        .btn-disabled:hover {
+            transform: none !important;
+        }
+
+        /* 图片轮播样式 */
+        .image-slider {
+            overflow: hidden;
+            position: relative;
+        }
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slider-track img {
+            min-width: 100%;
+            height: auto;
+        }
+        .slider-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+        .slider-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .slider-dot.active {
+            background-color: white;
+        }
+        
+        /* 部门卡片图片样式 */
+        .department-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 1px solid #f5f5f5;
+        }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc',
+                400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1',
+                800: '#075985', 900: '#0c4a6e',
+              },
+              autumn: {
+                50: '#fff7f0', 100: '#ffedd5', 200: '#fed7aa', 300: '#fdba74',
+                400: '#fb923c', 500: '#f97316', 600: '#ea580c', 700: '#c2410c',
+                800: '#9a3412', 900: '#7c2d12',
+              }
+            },
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <div id="app" class="min-h-screen flex flex-col">
+        <!-- 导航栏 -->
+        <header class="bg-white shadow-md sticky top-0 z-40">
+            <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <a href="#" class="flex items-center">
+                        <img src="{% static 'img/logo.jpg' %}" alt="Logo" class="h-8 w-8 rounded-full" />
+                        <span class="font-bold text-xl ml-2 text-gray-800">拾光文创</span>
+                    </a>
+                    <div class="flex items-center space-x-6">
+                        <a href="#about" class="text-gray-600 hover:text-autumn-600 transition-colors">关于我们</a>
+                        <a href="#departments" class="text-gray-600 hover:text-autumn-600 transition-colors">部门介绍</a>
+                        <button id="nav-apply-btn" class="px-4 py-2 bg-autumn-600 text-white rounded-lg hover:bg-autumn-700 transition-colors">我想加入</button>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- 主内容区 -->
+        <main class="flex-grow">
+            <!-- 英雄区域 -->
+            <section class="bg-gradient-to-br from-autumn-50 to-autumn-100 py-20 md:py-32">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <img src="{% static 'img/logo.jpg' %}" alt="拾光文创 Logo" class="h-24 w-24 mx-auto rounded-full shadow-lg mb-6 animate-fade-in" />
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mt-4 animate-fade-in animate-delay-100">枫径初遇｜秋招Memory Walk</h1>
+                    <p class="text-lg text-gray-600 mt-4 max-w-2xl mx-auto animate-fade-in animate-delay-200">落叶初见，一起把秋天写进记忆里</p>
+                    
+                    <div class="mt-8 max-w-3xl mx-auto text-gray-700 leading-relaxed animate-fade-in animate-delay-300">
+                        <p>挥别蝉鸣聒噪的盛夏</p>
+                        <p>九月的微凉把银杏叶吹成一枚枚金箔。</p>
+                        <p>Memory 拾光文创馆也在第六圈年轮里悄悄长大</p>
+                        <p>现在，我们想邀你一起</p>
+                        <p>把青春的故事烫金成永恒</p>
+                        <p>把下一道晨光</p>
+                        <p>也收进“拾光”的名字里</p>
+                    </div>
+                    
+                </div>
+            </section>
+
+            <!-- 文创室内照片展示 -->
+            <section class="py-16 bg-white scroll-reveal">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 class="text-2xl font-bold text-center text-gray-800 mb-10">拾光文创空间</h2>
+                    <div class="image-slider rounded-xl overflow-hidden shadow-lg h-[300px] md:h-[500px]">
+                        <div class="slider-track h-full">
+                            <img src="{% static 'img/1.png' %}" alt="拾光文创室内环境展示" class="object-cover h-full" />
+                            <img src="{% static 'img/2.png' %}" alt="拾光文创室内陈设展示" class="object-cover h-full" />
+                            <img src="{% static 'img/3.png' %}" alt="拾光文创活动空间展示" class="object-cover h-full" />
+                        </div>
+                        <div class="slider-dots">
+                            <div class="slider-dot active" data-index="0"></div>
+                            <div class="slider-dot" data-index="1"></div>
+                            <div class="slider-dot" data-index="2"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 关于我们 -->
+            <section id="about" class="py-20 bg-gray-50 scroll-reveal">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">关于我们</h2>
+                    <div class="bg-white rounded-2xl p-8 shadow-sm max-w-4xl mx-auto">
+                        <p class="text-gray-700 leading-relaxed mb-6">
+                            我们是 BNBU 官方认证的学生组织，隶属于学校 创新中心（IC）！
+拾光文创 致力于为学生提供一个让创意真正落地的平台～
+
+
+                        </p>
+                        <p class="text-gray-700 leading-relaxed mb-6">
+                            在这里，你可以：
+                        </p>
+
+                          <p class="text-gray-700 leading-relaxed mb-6">
+                            在拾光文创门店学习制作餐饮和咖啡；
+                        </p>
+
+                          <p class="text-gray-700 leading-relaxed mb-6">
+                            代表拾光文创与学校各社团合作举办活动，或把自己的小创意变成现实（我们的活动审核超级开放）；
+
+
+                        </p>
+
+                          <p class="text-gray-700 leading-relaxed mb-6">
+                            在门店橱窗展示你的创意作品和策展能力；
+
+                        </p>
+
+                        <p class="text-gray-700 leading-relaxed mb-6">
+
+如果你对学校官方纪念品设计（例如录取礼包里的周边）感兴趣，可以加入我们的 产品部；
+
+                        </p>
+                        <p class="text-gray-700 leading-relaxed mb-6">
+如果你擅长人力资源或对外公共关系，我们也为你提供了契合的管理岗位。
+
+
+                        </p>
+                         <p class="text-gray-700 leading-relaxed mb-6">
+                             我们不仅 open-minded（审核宽松），而且 实力满满！
+                        </p>
+                             <p class="text-gray-700 leading-relaxed mb-6">
+拾光文创在校内拥有线下门店：图书馆附近的拾光文创与拾光书屋，都是我们的专属地盘！
+                        </p>
+                        <p class="text-gray-700 leading-relaxed mb-6">
+BNBU有众多的学生社团，但是官方学生组织只有2个。大学可不是只有社团哦～
+                        </p>
+                        <div class="bg-autumn-50 p-6 rounded-xl border border-autumn-100">
+                            <p class="text-gray-800 font-semibold leading-relaxed">
+                                拾光文创和一般社团的区别:
+首先，拾光文创的性质在严格意义上并不属于社团，是属于官方钦定的学生组织。在BNBU，社团一般由学生事务处（SAO）管理，拾光文创由IC管理。
+其次，我们的资金来源会更充足（无需你转发朋友圈广告拉赞助亦或者为钱发愁）。
+相反，我们还发钱！在拾光文创工作的工时都记录于BNBU官方的勤工俭学工时，并按照25Y/h的标准发放工资。
+除此之外，在拾光文创你还可以拿到BNBU官方的工作证明（优秀工作员工）。这份工作证明不仅是学校社团经历的背书，也是你初步接触工作的见证。可所谓一石二鸟！
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 部门介绍 -->
+            <section id="departments" class="py-20 bg-white scroll-reveal">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">部门介绍</h2>
+                    
+                    <!-- 部门分类标签 -->
+                    <div class="flex flex-wrap justify-center gap-3 mb-10">
+                        <button class="department-filter active px-4 py-2 bg-autumn-600 text-white rounded-full text-sm font-medium" data-category="all">全部部门</button>
+                        <button class="department-filter px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200" data-category="公关部">公关部</button>
+                        <button class="department-filter px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200" data-category="新媒体部">新媒体部</button>
+                        <button class="department-filter px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200" data-category="商业部">商业部</button>
+                        <button class="department-filter px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200" data-category="产品研发部">产品研发部</button>
+                        <button class="department-filter px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200" data-category="策划部">策划部</button>
+                    </div>
+                    
+                    <!-- 部门列表 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- 公关部 - IT组 -->
+                        <div class="department-card border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl hover:border-autumn-300 transition-all duration-300 flex flex-col" data-category="公关部">
+                            <img src="{% static 'img/it.jpg' %}" alt="公关部IT组工作场景" class="department-image" />
+                            <div class="bg-autumn-100 p-4">
+                                <h3 class="text-xl font-bold text-autumn-800">公关部 - IT组</h3>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <p class="mt-2 text-sm text-gray-600">
+                                    <strong>工作内容:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>信息收集与整理，问卷制作</li>
+                                    <li>大型活动提供设备技术支持</li>
+                                    <li>程序系统设计与运维</li>
+                                </ul>
+                                
+                                <p class="mt-4 text-sm text-gray-600">
+                                    <strong>能力要求:</strong>（以下二选一即可）
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>熟练使用Excel、金山文档、问卷星等信息收集与整理软件</li>
+                                    <li>有一定项目经验，会自己拉取上传github</li>
+                                    <li>有部署服务器或者小程序经验（CDS、CST、DS、AI专业优先）</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 公关部 - HR组 -->
+                        <div class="department-card border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl hover:border-autumn-300 transition-all duration-300 flex flex-col" data-category="公关部">
+                            <img src="{% static 'img/hr.jpg' %}" alt="公关部HR组工作场景" class="department-image" />
+                            <div class="bg-autumn-100 p-4">
+                                <h3 class="text-xl font-bold text-autumn-800">公关部 - HR组</h3>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <p class="mt-2 text-sm text-gray-600">
+                                    <strong>工作内容:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>财务统计、薪酬调整</li>
+                                    <li>人员调配、监管内部工作分配</li>
+                                </ul>
+                                
+                                <p class="mt-4 text-sm text-gray-600">
+                                    <strong>能力要求:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>ACCT、MHR、FIN、PRA专业优先</li>
+                                    <li>优秀的沟通、表达和组织能力</li>
+                                    <li>多任务平衡、团队意识强，善于察觉团队需求和潜力</li>
+                                    <li>对图表数据敏感，擅长运用Excel进行高效数据处理</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 公关部 - 公关组 -->
+                        <div class="department-card border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl hover:border-autumn-300 transition-all duration-300 flex flex-col" data-category="公关部">
+                            <img src="{% static 'img/gongguan.jpg' %}" alt="公关部公关组工作场景" class="department-image" />
+                            <div class="bg-autumn-100 p-4">
+                                <h3 class="text-xl font-bold text-autumn-800">公关部 - 公关组</h3>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <p class="mt-2 text-sm text-gray-600">
+                                    <strong>工作内容:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>内容审核与信息管理</li>
+                                    <li>对外活动策划与执行协同</li>
+                                    <li>招新策划与组织统筹</li>
+                                    <li>社团舆情监测与反馈</li>
+                                </ul>
+                                
+                                <p class="mt-4 text-sm text-gray-600">
+                                    <strong>能力要求:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>公共关系（PRA）、传媒（COMM）、市场营销（MKT）等专业优先</li>
+                                    <li>具备良好的文字敏感度与内容判断能力</li>
+                                    <li>具备活动策划与统筹能力</li>
+                                    <li>沟通协调力强，善于跨组合作与对接外部资源</li>
+                                    <li>思维清晰，具备基本数据处理能力</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 新媒体部 - 小红书组 -->
+                        <div class="department-card border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl hover:border-autumn-300 transition-all duration-300 flex flex-col" data-category="新媒体部">
+                            <img src="{% static 'img/xiaohongshu.jpg' %}" alt="新媒体部小红书组工作场景" class="department-image" />
+                            <div class="bg-autumn-100 p-4">
+                                <h3 class="text-xl font-bold text-autumn-800">新媒体部 - 小红书组</h3>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <p class="mt-2 text-sm text-gray-600">
+                                    <strong>工作内容:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>负责BNBU Souvenir官方小红书账号的图文及视频内容创作</li>
+                                    <li>提升账号曝光度，协同团队进行账号运营</li>
+                                </ul>
+                                
+                                <p class="mt-4 text-sm text-gray-600">
+                                    <strong>能力要求:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>小红书深度用户（专业不限）</li>
+                                    <li>文笔流畅，具备创意思维</li>
+                                    <li>擅长图片编辑与产品拍摄</li>
+                                    <li>有小红书运营经验者优先（面试请自备作品/账号）</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 新媒体部 - 摄影组 -->
+                        <div class="department-card border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl hover:border-autumn-300 transition-all duration-300 flex flex-col" data-category="新媒体部">
+                            <img src="{% static 'img/sheying.jpg' %}" alt="新媒体部摄影组工作场景" class="department-image" />
+                            <div class="bg-autumn-100 p-4">
+                                <h3 class="text-xl font-bold text-autumn-800">新媒体部 - 摄影组</h3>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <p class="mt-2 text-sm text-gray-600">
+                                    <strong>工作内容:</strong>
+                                </p>
+                                <p class="text-sm text-gray-600 ml-2">主要负责围绕纪念品和活动进行视频拍摄和后期剪辑</p>
+                                
+                                <p class="mt-4 text-sm text-gray-600">
+                                    <strong>能力要求:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>有拍摄视频经验以及摄影器材</li>
+                                    <li>熟悉剪辑视频软件的使用</li>
+                                </ul>
+                                
+                                <p class="mt-3 text-sm font-semibold text-red-600 bg-red-50 p-2 rounded">
+                                    <strong>【投递要求】</strong> 请提前准备个人拍摄/剪辑的视频作品。
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- 新媒体部 - 海报组 -->
+                        <div class="department-card border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl hover:border-autumn-300 transition-all duration-300 flex flex-col" data-category="新媒体部">
+                            <img src="{% static 'img/haibao.jpg' %}" alt="新媒体部海报组工作场景" class="department-image" />
+                            <div class="bg-autumn-100 p-4">
+                                <h3 class="text-xl font-bold text-autumn-800">新媒体部 - 海报组</h3>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <p class="mt-2 text-sm text-gray-600">
+                                    <strong>工作内容:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>定期设计节日主题海报</li>
+                                    <li>配合其他部门活动制作宣传海报</li>
+                                    <li>完成临时性创意平面设计任务</li>
+                                </ul>
+                                
+                                <p class="mt-4 text-sm text-gray-600">
+                                    <strong>能力要求:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>MAD、AIM等专业优先</li>
+                                    <li>熟练使用至少一种设计工具（PS/AI优先）</li>
+                                    <li>具备排版、配色、主题表达能力</li>
+                                    <li>对视觉设计有敏锐度</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 新媒体部 - 公众号组 -->
+                        <div class="department-card border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl hover:border-autumn-300 transition-all duration-300 flex flex-col" data-category="新媒体部">
+                            <img src="{% static 'img/gongzonghao.jpg' %}" alt="新媒体部公众号组工作场景" class="department-image" />
+                            <div class="bg-autumn-100 p-4">
+                                <h3 class="text-xl font-bold text-autumn-800">新媒体部 - 公众号组</h3>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <p class="mt-2 text-sm text-gray-600">
+                                    <strong>工作内容:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>负责推文的文案撰写、图文排版</li>
+                                    <li>运营UIC Souvenir公众号</li>
+                                </ul>
+                                
+                                <p class="mt-4 text-sm text-gray-600">
+                                    <strong>能力要求:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>文案/排版方面有所擅长</li>
+                                    <li>熟练使用秀米、PS为加分项</li>
+                                    <li>执行力强、不拖延</li>
+                                    <li>为自己的任务负责任</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 商业部 - 纪念品组 -->
+                        <div class="department-card border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl hover:border-autumn-300 transition-all duration-300 flex flex-col" data-category="商业部">
+                            <img src="{% static 'img/jinianpin.jpg' %}" alt="商业部纪念品组工作场景" class="department-image" />
+                            <div class="bg-autumn-100 p-4">
+                                <h3 class="text-xl font-bold text-autumn-800">商业部 - 纪念品组</h3>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <p class="mt-2 text-sm text-gray-600">
+                                    <strong>工作内容:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>负责店内纪念品补货以及陈列</li>
+                                    <li>帮助老师进行纪念品申领</li>
+                                </ul>
+                                
+                                <p class="mt-4 text-sm text-gray-600">
+                                    <strong>能力要求:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>有较强的责任心，能够完成好任务</li>
+                                    <li>能够较为熟练掌握word/excel等工作软件</li>
+                                    <li>吃苦耐劳，能够工作一学年者优先</li>
+                                </ul>
+                                
+                                <p class="mt-3 text-sm font-semibold text-blue-600 bg-blue-50 p-2 rounded">
+                                    <strong>【年级要求】</strong> 只招大一大二同学
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- 商业部 - 餐饮组 -->
+                        <div class="department-card border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl hover:border-autumn-300 transition-all duration-300 flex flex-col" data-category="商业部">
+                            <img src="{% static 'img/canyin.jpg' %}" alt="商业部餐饮组工作场景" class="department-image" />
+                            <div class="bg-autumn-100 p-4">
+                                <h3 class="text-xl font-bold text-autumn-800">商业部 - 餐饮组</h3>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <p class="mt-2 text-sm text-gray-600">
+                                    <strong>工作内容:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>负责协助餐饮工作人员完成点单、制作饮品、收餐盘等工作</li>
+                                    <li>负责完成纪念品销售后取货、打包等工作</li>
+                                    <li>工作时间为工作日用餐时段，每人每周至少需工作2小时</li>
+                                </ul>
+                                
+                                <p class="mt-4 text-sm text-gray-600">
+                                    <strong>能力要求:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>热爱餐饮服务行业，有咖啡、饮品等制作基础者优先</li>
+                                    <li>有良好的沟通社交能力和团队意识</li>
+                                    <li>工作认真细致，不留美甲，能够合理安排时间</li>
+                                    <li>可接受用餐高峰时段高强度工作</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 产品研发部 - 产品设计组 -->
+                        <div class="department-card border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl hover:border-autumn-300 transition-all duration-300 flex flex-col" data-category="产品研发部">
+                            <img src="{% static 'img/chanpingsheji.jpg' %}" alt="产品研发部产品设计组工作场景" class="department-image" />
+                            <div class="bg-autumn-100 p-4">
+                                <h3 class="text-xl font-bold text-autumn-800">产品研发部 - 产品设计组</h3>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <p class="mt-2 text-sm text-gray-600">
+                                    <strong>工作内容:</strong>
+                                </p>
+                                <p class="text-sm text-gray-600 ml-2">负责产出原创纪念品设计样图。</p>
+                                
+                                <p class="mt-4 text-sm text-gray-600">
+                                    <strong>能力要求:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>有较强的设计能力</li>
+                                    <li>能较为熟练使用AI/PS等设计软件</li>
+                                    <li>热爱设计坚守原创不抄袭的原则底线</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 产品研发部 - 产品策划组 -->
+                        <div class="department-card border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl hover:border-autumn-300 transition-all duration-300 flex flex-col" data-category="产品研发部">
+                            <img src="{% static 'img/chanpingcehua.jpg' %}" alt="产品研发部产品策划组工作场景" class="department-image" />
+                            <div class="bg-autumn-100 p-4">
+                                <h3 class="text-xl font-bold text-autumn-800">产品研发部 - 产品策划组</h3>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <p class="mt-2 text-sm text-gray-600">
+                                    <strong>工作内容:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>参与文创产品的创意构思与设计提案</li>
+                                    <li>能开发具有文化价值与市场潜力的产品</li>
+                                    <li>跟进产品从设计到量产的全过程</li>
+                                    <li>参与文创IP内容策划，增强产品附加值</li>
+                                </ul>
+                                
+                                <p class="mt-4 text-sm text-gray-600">
+                                    <strong>能力要求:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>熟悉常见文创不同工艺，生产流程，有产品落地经验者优先</li>
+                                    <li>具备敏锐的创意洞察力与良好的美学基础</li>
+                                    <li>能提出新颖且可实现的产品创意</li>
+                                    <li>具备一定的项目统筹能力，能协调多方资源</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 策划部 - 活动组 -->
+                        <div class="department-card border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl hover:border-autumn-300 transition-all duration-300 flex flex-col" data-category="策划部">
+                            <img src="{% static 'img/huodong.jpg' %}" alt="策划部活动组工作场景" class="department-image" />
+                            <div class="bg-autumn-100 p-4">
+                                <h3 class="text-xl font-bold text-autumn-800">策划部 - 活动组</h3>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <p class="mt-2 text-sm text-gray-600">
+                                    <strong>工作内容:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>负责策划方案的落地，需要紧密联系其他部门成员</li>
+                                    <li>涉及到物资采买、活动场地布置、活动轮值等工作</li>
+                                </ul>
+                                
+                                <p class="mt-4 text-sm text-gray-600">
+                                    <strong>能力要求:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>有较强的责任心，能够完成好任务</li>
+                                    <li>沟通能力强且性格外向，能够和组员很好的合作</li>
+                                    <li>面试通过后有试用期</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 策划部 - 策展组 -->
+                        <div class="department-card border border-gray-200 rounded-lg overflow-hidden hover:shadow-xl hover:border-autumn-300 transition-all duration-300 flex flex-col" data-category="策划部">
+                            <img src="{% static 'img/cezhan.jpg' %}" alt="策划部策展组工作场景" class="department-image" />
+                            <div class="bg-autumn-100 p-4">
+                                <h3 class="text-xl font-bold text-autumn-800">策划部 - 策展组</h3>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <p class="mt-2 text-sm text-gray-600">
+                                    <strong>工作内容:</strong>
+                                </p>
+                                <p class="text-sm text-gray-600 ml-2">负责每月橱窗、店内展位等地的策划与布置</p>
+                                
+                                <p class="mt-4 text-sm text-gray-600">
+                                    <strong>能力要求:</strong>
+                                </p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside ml-2 mt-1 space-y-1">
+                                    <li>有较好的审美、规划和动手能力</li>
+                                    <li>CCM、MAD、CTV等专业优先</li>
+                                    <li>面试通过后有试用期</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 核心福利 -->
+            <section class="py-20 bg-white scroll-reveal">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">核心福利</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                        <div class="bg-autumn-50 p-6 rounded-xl text-center hover:shadow-md transition-shadow">
+                            <i data-lucide="credit-card" class="w-12 h-12 text-autumn-600 mx-auto mb-4"></i>
+                            <h3 class="font-bold text-gray-800 mb-2">25元/小时薪资</h3>
+                            <p class="text-gray-600 text-sm">官方勤工俭学薪资，有保障</p>
+                        </div>
+                        <div class="bg-autumn-50 p-6 rounded-xl text-center hover:shadow-md transition-shadow">
+                            <i data-lucide="newspaper" class="w-12 h-12 text-autumn-600 mx-auto mb-4"></i>
+                            <h3 class="font-bold text-gray-800 mb-2">官方工作证明</h3>
+                            <p class="text-gray-600 text-sm">UIC官方优秀员工工作证明</p>
+                        </div>
+                        <div class="bg-autumn-50 p-6 rounded-xl text-center hover:shadow-md transition-shadow">
+                            <i data-lucide="gift" class="w-12 h-12 text-autumn-600 mx-auto mb-4"></i>
+                            <h3 class="font-bold text-gray-800 mb-2">面试赠礼</h3>
+                            <p class="text-gray-600 text-sm">到场面试即赠文创礼品</p>
+                        </div>
+                        <div class="bg-autumn-50 p-6 rounded-xl text-center hover:shadow-md transition-shadow">
+                            <i data-lucide="users" class="w-12 h-12 text-autumn-600 mx-auto mb-4"></i>
+                            <h3 class="font-bold text-gray-800 mb-2">友好氛围</h3>
+                            <p class="text-gray-600 text-sm">时间自由、定期茶歇与团建</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 加入我们 -->
+            <section id="join" class="py-20 bg-autumn-50 scroll-reveal">
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">准备好加入我们了吗？</h2>
+                    <div class="prose prose-lg max-w-none text-gray-700 mb-10">
+                        <p>加入我们，以年轻的名义</p>
+                        <p>拾起灵感的露珠</p>
+                        <p>期待着与每个你的遇见</p>
+                        <p>盼望着每个你的加入</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-sm mb-10 max-w-2xl mx-auto">
+                        <p class="text-gray-700 mb-4">Memory拾光文创永远是UICer各类文化创意活动的展示平台</p>
+                        <p class="text-gray-700">如果你和你的团队需要我们的支持，请与我们联络</p>
+                        <p class="text-gray-600 mt-4 italic">MEMORY will always be a free platform for UICer's cultural and creative activities. If you and your team need our support, please feel free to contact us.</p>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button id="join-apply-btn" class="px-8 py-3 bg-autumn-600 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-autumn-700 transition-all duration-300 transform hover:scale-105 active:scale-95">
+                            <i data-lucide="file-text" class="w-5 h-5 inline-block mr-2"></i>填写报名表
+                        </button>
+                        <a href="{% static 'img/拾光文创简历模板.doc' %}" download class="px-8 py-3 bg-gray-700 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-105 active:scale-95">
+                            <i data-lucide="download" class="w-5 h-5 inline-block mr-2"></i>下载简历模板
+                        </a>
+                        <button id="result-query-btn" class="px-8 py-3 bg-autumn-600 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-autumn-700 transition-all duration-300 transform hover:scale-105 active:scale-95">
+                            <i data-lucide="tractor" class="w-5 h-5 inline-block mr-2"></i>结果查询
+                        </button>
+                    </div>
+                    <p class="mt-6 text-gray-600 italic">
+                        报名时间：2025年8月10日 - 2025年9月9日下午5点
+                    </p>
+                    <p class="mt-2 text-gray-600 italic">
+                        结果查询时间：2025年8月10日 - 2025年9月12日
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <!-- 页脚 -->
+        <footer id="footer" class="bg-autumn-900 text-white py-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <div class="flex justify-center items-center gap-2 mb-4">
+                    <img src="{% static 'img/logo.jpg' %}" alt="拾光文创" class="w-8 h-8 rounded-full object-cover" />
+                    <h2 class="text-lg font-bold">拾光文创</h2>
+                </div>
+                <p class="text-autumn-100 mb-6">记录时光，创造美好</p>
+                <p class="text-autumn-200 text-sm">© 2021 拾光文创. All Rights Reserved.</p>
+                <p class="text-autumn-200 text-sm mt-2">如在本系统遇到任何问题，请联系IT协助: <a href="mailto:s30026143@mail.uic.edu.cn" class="text-autumn-300 hover:underline">s30026143@mail.uic.edu.cn</a></p>
+                <p class="text-autumn-200 text-sm mt-2">更多与拾光文创事宜相关的咨询、合作、洽谈，请联系: <a href="mailto:uicsouvenir@uic.edu.cn" class="text-autumn-300 hover:underline">uicsouvenir@uic.edu.cn</a></p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // 初始化图标
+        window.addEventListener('DOMContentLoaded', () => {
+            window.lucide.createIcons();
+            
+            // 图片轮播功能
+            const sliderTrack = document.querySelector('.slider-track');
+            const sliderDots = document.querySelectorAll('.slider-dot');
+            let currentSlide = 0;
+            
+            function goToSlide(index) {
+                currentSlide = index;
+                sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+                
+                // 更新指示点状态
+                sliderDots.forEach((dot, i) => {
+                    if (i === currentSlide) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+            
+            // 点击指示点切换图片
+            sliderDots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    goToSlide(parseInt(dot.dataset.index));
+                });
+            });
+            
+            // 自动轮播
+            setInterval(() => {
+                currentSlide = (currentSlide + 1) % sliderDots.length;
+                goToSlide(currentSlide);
+            }, 5000);
+            
+            // 定义报名时间范围
+            const applyStartDate = new Date('2025-08-10T00:00:00');
+            const applyEndDate = new Date('2025-09-09T17:00:00');
+            
+            // 定义结果查询时间范围
+            const queryStartDate = new Date('2025-08-10T00:00:00');
+            const queryEndDate = new Date('2025-09-12T23:59:59');
+            
+            const currentDate = new Date();
+            
+            // 检查是否在报名时间内
+            const isInApplicationPeriod = currentDate >= applyStartDate && currentDate <= applyEndDate;
+            
+            // 检查是否在结果查询时间内
+            const isInQueryPeriod = currentDate >= queryStartDate && currentDate <= queryEndDate;
+            
+            // 获取按钮元素
+            const applyButton = document.getElementById('join-apply-btn');
+            const queryButton = document.getElementById('result-query-btn');
+            
+            // 设置报名按钮的状态和行为
+            if (applyButton) {
+                // 如果不在报名时间内，添加视觉提示
+                if (!isInApplicationPeriod) {
+                    applyButton.classList.add('btn-disabled');
+                }
+                
+                applyButton.addEventListener('click', () => {
+                    if (isInApplicationPeriod) {
+                        // 在开放时间内，跳转到报名链接
+                        window.location.href = 'https://github.com/tgx75/wenchuang';
+                    } else {
+                        // 不在开放时间内，显示提示
+                        alert('不在报名时间内，请关注通知');
+                    }
+                });
+            }
+            
+            // 设置结果查询按钮的状态和行为
+            if (queryButton) {
+                // 如果不在查询时间内，添加视觉提示
+                if (!isInQueryPeriod) {
+                    queryButton.classList.add('btn-disabled');
+                }
+                
+                queryButton.addEventListener('click', () => {
+                    if (isInQueryPeriod) {
+                        // 在查询时间内，跳转到结果查询链接
+                        window.location.href = 'https://github.com/tgx75/wenchuang-result';
+                    } else {
+                        // 不在查询时间内，显示提示
+                        alert('不在查询时间内，请关注通知');
+                    }
+                });
+            }
+            
+            // 导航栏的"我想加入"按钮滑动到页面底部
+            const navApplyBtn = document.getElementById('nav-apply-btn');
+            if (navApplyBtn) {
+                navApplyBtn.addEventListener('click', () => {
+                    document.getElementById('footer').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            }
+            
+            // 滚动显示动画
+            const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            scrollRevealElements.forEach(el => observer.observe(el));
+            
+            // 部门筛选功能
+            const filterButtons = document.querySelectorAll('.department-filter');
+            const departmentCards = document.querySelectorAll('.department-card');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // 更新按钮样式
+                    filterButtons.forEach(btn => {
+                        btn.classList.remove('bg-autumn-600', 'text-white', 'active');
+                        btn.classList.add('bg-gray-100', 'text-gray-700');
+                    });
+                    button.classList.remove('bg-gray-100', 'text-gray-700');
+                    button.classList.add('bg-autumn-600', 'text-white', 'active');
+                    
+                    // 筛选部门
+                    const category = button.getAttribute('data-category');
+                    departmentCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

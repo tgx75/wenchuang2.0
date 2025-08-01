@@ -1,0 +1,33 @@
+三、创建 Django 应用（App）
+Django 项目由多个应用（App）组成，每个 App 负责特定功能（如用户模块、博客模块等）：
+
+创建 App
+python manage.py startapp myapp  # 创建名为 myapp 的应用
+
+执行后会生成 myapp 文件夹，包含应用相关文件。
+注册 App 到项目
+打开 myproject/settings.py，在 INSTALLED_APPS 列表中添加应用名称：
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'myapp',  # 新增：注册自定义应用
+]
+
+四、运行 Django 开发服务器
+初始化数据库
+Django 默认使用 SQLite 数据库（无需额外配置），首次运行需执行迁移：
+python manage.py migrate  # 应用默认数据库迁移
+
+python manage.py runserver
+
+终端会显示类似以下信息：
+plaintext
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+访问项目
+打开浏览器，访问 http://127.0.0.1:8000/，看到 Django 的欢迎页面即表示项目创建成功！

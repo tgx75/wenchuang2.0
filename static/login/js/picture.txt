@@ -1,0 +1,13 @@
+
+					jQuery(function($) {$(document).ready(function() {
+						$('#rotator').crossSlide(
+							{sleep: 2, fade: 1, debug: true},
+							[
+
+							<img src="{% static 'login/2.jpg' %}">
+							<img src="{% static 'login/3.jpg' %}">
+							<img src="{% static 'login/4.jpg' %}">
+							]
+						);
+					});});
+		

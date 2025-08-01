@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block title %}拾光文创 - 报名表单{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-step {
+        display: none;
+    }
+    .form-step.active {
+        display: block;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .progress-bar {
+        transition: width 0.3s ease-in-out;
+    }
+    .checkbox-group label {
+        transition: all 0.2s;
+    }
+    .checkbox-group label:hover {
+        transform: translateY(-2px);
+    }
+    .input-error {
+        border-color: #ef4444 !important;
+    }
+    .error-message {
+        color: #ef4444;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">拾光文创招新报名</h1>
+        <p class="text-gray-600 max-w-2xl mx-auto">填写下方表单加入我们，一起创造精彩的校园文化体验。所有带 <span class="text-red-500">*</span> 的字段为必填项。</p>
+    </div>
+
+    <!-- 进度指示器 -->
+    <div class="mb-8">
+        <div class="flex justify-between items-center mb-2">
+            <span class="text-sm font-medium text-primary-600">基本信息</span>
+            <span class="text-sm font-medium text-gray-500" id="step2-label">部门选择</span>
+            <span class="text-sm font-medium text-gray-500" id="step3-label">个人能力</span>
+            <span class="text-sm font-medium text-gray-500" id="step4-label">确认提交</span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div class="bg-primary-600 h-2.5 rounded-full progress-bar" style="width: 25%"></div>
+        </div>
+    </div>
+
+    <form id="application-form" class="bg-white rounded-xl shadow-md p-6 md:p-8">
+        <!-- 步骤1：基本信息 -->
+        <div class="form-step active" id="step1">
+            <h2 class="text-xl font-semibold mb-6 pb-2 border-b border-gray-200">基本信息</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">姓名 <span class="text-red-500">*</span></label>
+                    <input type="text" id="name" name="name" required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                    <div class="error-message" id="name-error"></div>
+                </div>
+
+                <div>
+                    <label for="student_id" class="block text-sm font-medium text-gray-700 mb-1">学号 <span class="text-red-500">*</span></label>
+                    <input type="text" id="student_id" name="student_id" required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                    <div class="error-message" id="student_id-error"></div>
+                </div>
+
+                <div>
+                    <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">性别 <span class="text-red-500">*</span></label>
+                    <select id="gender" name="gender" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                        <option value="">请选择</option>
+                        <option value="male">男</option>
+                        <option value="female">女</option>
+                        <option value="other">其他</option>
+                    </select>
+                    <div class="error-message" id="gender-error"></div>
+                </div>
+
+                <div>
+                    <label for="grade" class="block text-sm font-medium text-gray-700 mb-1">年级 <span class="text-red-500">*</span></label>
+                    <select id="grade" name="grade" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                        <option value="">请选择</option>
+                        <option value="freshman">大一</option>
+                        <option value="sophomore">大二</option>
+                        <option value="junior">大三</option>
+                        <option value="senior">大四</option>
+                        <option value="graduate">研究生</option>
+                    </select>
+                    <div class="error-message" id="grade-error"></div>
+                </div>
+
+                <div>
+                    <label for="major" class="block text-sm font-medium text-gray-700 mb-1">专业 <span class="text-red-500">*</span></label>
+                    <input type="text" id="major" name="major" required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                    <div class="error-message" id="major-error"></div>
+                </div>
+
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">手机号码 <span class="text-red-500">*</span></label>
+                    <input type="tel" id="phone" name="phone" required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                    <div class="error-message" id="phone-error"></div>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">电子邮箱 <span class="text-red-500">*</span></label>
+                    <input type="email" id="email" name="email" required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                    <div class="error-message" id="email-error"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 步骤2：部门选择 -->
+        <div class="form-step" id="step2">
+            <h2 class="text-xl font-semibold mb-6 pb-2 border-b border-gray-200">部门选择</h2>
+
+            <div class="mb-6">
+                <p class="text-sm text-gray-600 mb-4">请选择您意向加入的部门，可选择1-2个部门，我们会优先考虑您的第一志愿。</p>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">第一志愿部门 <span class="text-red-500">*</span></label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 checkbox-group">
+                        {% for department in departments %}
+                        {% if department.active_for_interview %}
+                        <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-primary-300 hover:bg-primary-50">
+                            <input type="radio" name="first_department" value="{{ department.id }}" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300">
+                            <span class="ml-2">{{ department.name }}</span>
+                        </label>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="error-message" id="first_department-error"></div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">第二志愿部门（可选）</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 checkbox-group">
+                        <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-primary-300 hover:bg-primary-50">
+                            <input type="radio" name="second_department" value="" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300" checked>
+                            <span class="ml-2">不选择</span>
+                        </label>
+                        {% for department in departments %}
+                        {% if department.active_for_interview %}
+                        <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-primary-300 hover:bg-primary-50">
+                            <input type="radio" name="second_department" value="{{ department.id }}" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300">
+                            <span class="ml-2">{{ department.name }}</span>
+                        </label>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div>
+                    <label for="department_reason" class="block text-sm font-medium text-gray-700 mb-1">选择理由 <span class="text-red-500">*</span></label>
+                    <textarea id="department_reason" name="department_reason" rows="4" required
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                              placeholder="请说明您选择这些部门的原因以及对部门的理解"></textarea>
+                    <div class="error-message" id="department_reason-error"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 步骤3：个人能力 -->
+        <div class="form-step" id="step3">
+            <h2 class="text-xl font-semibold mb-6 pb-2 border-b border-gray-200">个人能力与经历</h2>
+
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">您的特长或技能（可多选）</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 checkbox-group">
+                        <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-primary-300 hover:bg-primary-50">
+                            <input type="checkbox" name="skills" value="writing" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300">
+                            <span class="ml-2">写作</span>
+                        </label>
+                        <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-primary-300 hover:bg-primary-50">
+                            <input type="checkbox" name="skills" value="design" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300">
+                            <span class="ml-2">设计</span>
+                        </label>
+                        <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-primary-300 hover:bg-primary-50">
+                            <input type="checkbox" name="skills" value="photography" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300">
+                            <span class="ml-2">摄影</span>
+                        </label>
+                        <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-primary-300 hover:bg-primary-50">
+                            <input type="checkbox" name="skills" value="video" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300">
+                            <span class="ml-2">视频制作</span>
+                        </label>
+                        <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-primary-300 hover:bg-primary-50">
+                            <input type="checkbox" name="skills" value="programming" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300">
+                            <span class="ml-2">编程开发</span>
+                        </label>
+                        <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-primary-300 hover:bg-primary-50">
+                            <input type="checkbox" name="skills" value="public_speaking" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300">
+                            <span class="ml-2">演讲口才</span>
+                        </label>
+                        <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-primary-300 hover:bg-primary-50">
+                            <input type="checkbox" name="skills" value="marketing" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300">
+                            <span class="ml-2">市场营销</span>
+                        </label>
+                        <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-primary-300 hover:bg-primary-50">
+                            <input type="checkbox" name="skills" value="event_organizing" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300">
+                            <span class="ml-2">活动组织</span>
+                        </label>
+                        <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-primary-300 hover:bg-primary-50">
+                            <input type="checkbox" name="skills" value="other" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300">
+                            <span class="ml-2">其他</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="other_skills" class="block text-sm font-medium text-gray-700 mb-1">其他技能或特长说明</label>
+                    <textarea id="other_skills" name="other_skills" rows="2"
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                              placeholder="如果您选择了'其他'，请在此说明"></textarea>
+                </div>
+
+                <div>
+                    <label for="experience" class="block text-sm font-medium text-gray-700 mb-1">相关经历 <span class="text-red-500">*</span></label>
+                    <textarea id="experience" name="experience" rows="4" required
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                              placeholder="请描述您参与过的相关活动、项目或担任过的职务等经历"></textarea>
+                    <div class="error-message" id="experience-error"></div>
+                </div>
+
+                <div>
+                    <label for="self_introduction" class="block text-sm font-medium text-gray-700 mb-1">自我介绍 <span class="text-red-500">*</span></label>
+                    <textarea id="self_introduction" name="self_introduction" rows="4" required
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                              placeholder="请简要介绍自己，包括性格特点、兴趣爱好等"></textarea>
+                    <div class="error-message" id="self_introduction-error"></div>
+                </div>
+
+                <div>
+                    <label for="availability" class="block text-sm font-medium text-gray-700 mb-1">可参与活动的时间 <span class="text-red-500">*</span></label>
+                    <textarea id="availability" name="availability" rows="3" required
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                              placeholder="请说明您一周中哪些时间段可以参与社团活动"></textarea>
+                    <div class="error-message" id="availability-error"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 步骤4：确认提交 -->
+        <div class="form-step" id="step4">
+            <h2 class="text-xl font-semibold mb-6 pb-2 border-b border-gray-200">确认信息</h2>
+
+            <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                <h3 class="font-medium text-gray-900 mb-4">请确认以下信息无误</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 mb-6">
+                    <div>
+                        <p class="text-sm text-gray-500">姓名</p>
+                        <p class="font-medium" id="confirm-name">-</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">学号</p>
+                        <p class="font-medium" id="confirm-student-id">-</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">年级</p>
+                        <p class="font-medium" id="confirm-grade">-</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">专业</p>
+                        <p class="font-medium" id="confirm-major">-</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">联系电话</p>
+                        <p class="font-medium" id="confirm-phone">-</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">电子邮箱</p>
+                        <p class="font-medium" id="confirm-email">-</p>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <p class="text-sm text-gray-500 mb-1">意向部门</p>
+                    <p class="font-medium mb-1" id="confirm-first-department">-</p>
+                    <p class="font-medium" id="confirm-second-department">-</p>
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500 mb-1">主要技能</p>
+                    <p class="font-medium" id="confirm-skills">-</p>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label class="flex items-start">
+                    <input type="checkbox" id="agreement" name="agreement" required
+                           class="mt-1 h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300">
+                    <span class="ml-2 text-sm text-gray-700">
+                        我确认所填写的信息真实有效，并同意拾光文创根据《个人信息保护声明》处理我的个人信息。
+                        我了解招新流程，并愿意配合后续的面试安排。
+                    </span>
+                </label>
+                <div class="error-message" id="agreement-error"></div>
+            </div>
+        </div>
+
+        <!-- 表单操作按钮 -->
+        <div class="flex justify-between pt-6 border-t border-gray-200">
+            <button type="button" id="prev-btn" class="px-6 py-2 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors hidden">
+                <i class="fa fa-arrow-left mr-1"></i> 上一步
+            </button>
+            <div class="ml-auto">
+                <button type="button" id="next-btn" class="px-6 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 transition-colors">
+                    下一步 <i class="fa fa-arrow-right ml-1"></i>
+                </button>
+                <button type="submit" id="submit-btn" class="px-6 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 transition-colors hidden">
+                    <i class="fa fa-check mr-1"></i> 提交报名
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- 提交成功模态框 -->
+<div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-8 text-center transform transition-all">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-6">
+            <i class="fa fa-check text-2xl text-green-600"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">报名成功！</h3>
+        <p class="text-gray-600 mb-6">感谢您报名加入拾光文创，我们会尽快审核您的信息并通过短信或邮件通知您面试时间。</p>
+        <div class="flex justify-center">
+            <a href="{% url 'home' %}" class="px-6 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 transition-colors">
+                返回首页
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const formSteps = document.querySelectorAll('.form-step');
+        const progressBar = document.querySelector('.progress-bar');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const step2Label = document.getElementById('step2-label');
+        const step3Label = document.getElementById('step3-label');
+        const step4Label = document.getElementById('step4-label');
+        const applicationForm = document.getElementById('application-form');
+        const successModal = document.getElementById('success-modal');
+
+        let currentStep = 0;
+        const totalSteps = formSteps.length;
+
+        // 部门数据映射（实际应用中应该从后端获取）
+        const departmentMap = {};
+        {% for department in departments %}
+        departmentMap[{{ department.id }}] = "{{ department.name }}";
+        {% endfor %}
+
+        // 更新步骤显示
+        function updateStepDisplay() {
+            formSteps.forEach((step, index) => {
+                step.classList.toggle('active', index === currentStep);
+            });
+
+            // 更新进度条
+            progressBar.style.width = `${((currentStep + 1) / totalSteps) * 100}%`;
+
+            // 更新步骤标签
+            step2Label.classList.toggle('text-primary-600', currentStep >= 1);
+            step2Label.classList.toggle('text-gray-500', currentStep < 1);
+            step3Label.classList.toggle('text-primary-600', currentStep >= 2);
+            step3Label.classList.toggle('text-gray-500', currentStep < 2);
+            step4Label.classList.toggle('text-primary-600', currentStep >= 3);
+            step4Label.classList.toggle('text-gray-500', currentStep < 3);
+
+            // 更新按钮显示
+            prevBtn.classList.toggle('hidden', currentStep === 0);
+            nextBtn.classList.toggle('hidden', currentStep === totalSteps - 1);
+            submitBtn.classList.toggle('hidden', currentStep !== totalSteps - 1);
+
+            // 如果是最后一步，填充确认信息
+            if (currentStep === totalSteps - 1) {
+                populateConfirmation();
+            }
+
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 填充确认信息
+        function populateConfirmation() {
+            document.getElementById('confirm-name').textContent = document.getElementById('name').value || '-';
+            document.getElementById('confirm-student-id').textContent = document.getElementById('student_id').value || '-';
+
+            const gradeSelect = document.getElementById('grade');
+            document.getElementById('confirm-grade').textContent = gradeSelect.options[gradeSelect.selectedIndex].text || '-';
+
+            document.getElementById('confirm-major').textContent = document.getElementById('major').value || '-';
+            document.getElementById('confirm-phone').textContent = document.getElementById('phone').value || '-';
+            document.getElementById('confirm-email').textContent = document.getElementById('email').value || '-';
+
+            // 部门信息
+            const firstDeptId = document.querySelector('input[name="first_department"]:checked')?.value;
+            document.getElementById('confirm-first-department').textContent = `第一志愿: ${firstDeptId ? departmentMap[firstDeptId] : '-'}`;
+
+            const secondDeptId = document.querySelector('input[name="second_department"]:checked')?.value;
+            document.getElementById('confirm-second-department').textContent = secondDeptId ? `第二志愿: ${departmentMap[secondDeptId]}` : '';
+
+            // 技能信息
+            const selectedSkills = Array.from(document.querySelectorAll('input[name="skills"]:checked')).map(checkbox => {
+                const skillMap = {
+                    'writing': '写作',
+                    'design': '设计',
+                    'photography': '摄影',
+                    'video': '视频制作',
+                    'programming': '编程开发',
+                    'public_speaking': '演讲口才',
+                    'marketing': '市场营销',
+                    'event_organizing': '活动组织',
+                    'other': '其他'
+                };
+                return skillMap[checkbox.value] || checkbox.value;
+            });
+            document.getElementById('confirm-skills').textContent = selectedSkills.length > 0 ? selectedSkills.join('、') : '-';
+        }
+
+        // 验证当前步骤
+        function validateStep() {
+            let isValid = true;
+            const currentFormStep = formSteps[currentStep];
+            const requiredFields = currentFormStep.querySelectorAll('[required]');
+
+            // 清除之前的错误提示
+            document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim() || (field.type === 'checkbox' && !field.checked)) {
+                    isValid = false;
+                    field.classList.add('input-error');
+
+                    // 显示错误消息
+                    const errorId = `${field.name}-error`;
+                    const errorElement = document.getElementById(errorId);
+                    if (errorElement) {
+                        errorElement.textContent = '此字段为必填项';
+                    }
+                } else if (field.name === 'phone' && !/^\d{11}$/.test(field.value.trim())) {
+                    // 验证手机号
+                    isValid = false;
+                    field.classList.add('input-error');
+                    const errorElement = document.getElementById('phone-error');
+                    if (errorElement) {
+                        errorElement.textContent = '请输入有效的11位手机号码';
+                    }
+                } else if (field.name === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value.trim())) {
+                    // 验证邮箱
+                    isValid = false;
+                    field.classList.add('input-error');
+                    const errorElement = document.getElementById('email-error');
+                    if (errorElement) {
+                        errorElement.textContent = '请输入有效的电子邮箱地址';
+                    }
+                }
+            });
+
+            // 特殊验证：第一志愿部门
+            if (currentStep === 1) {
+                const firstDeptSelected = document.querySelector('input[name="first_department"]:checked');
+                if (!firstDeptSelected) {
+                    isValid = false;
+                    const errorElement = document.getElementById('first_department-error');
+                    if (errorElement) {
+                        errorElement.textContent = '请选择第一志愿部门';
+                    }
+                }
+            }
+
+            return isValid;
+        }
+
+        // 下一步按钮
+        nextBtn.addEventListener('click', function() {
+            if (validateStep()) {
+                currentStep++;
+                updateStepDisplay();
+            }
+        });
+
+        // 上一步按钮
+        prevBtn.addEventListener('click', function() {
+            currentStep--;
+            updateStepDisplay();
+        });
+
+        // 表单提交
+        applicationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (validateStep()) {
+                // 这里应该发送AJAX请求提交表单数据
+                console.log('提交表单数据');
+
+                // 显示成功模态框
+                successModal.classList.remove('hidden');
+            }
+        });
+
+        // 关闭成功模态框（点击背景）
+        successModal.addEventListener('click', function(e) {
+            if (e.target === successModal) {
+                successModal.classList.add('hidden');
+            }
+        });
+    });
+</script>
+{% endblock %}
