@@ -30,7 +30,7 @@ SECRET_KEY = "django-insecure-p!70puper7$w!9zdr+=0+s__v^jw0rq9v=ue-ia2kjkw&%c7ry
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['memory-nz2v.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'memory-nz2v.onrender.com']
 
 
 

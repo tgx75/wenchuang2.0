@@ -49,3 +49,6 @@ git add .
 git commit -m "🛠️ 覆写 wenchuang2.0 仓库，上传新版本"
 ✅ 步骤四：强制推送（慎用，会覆盖远程）
 git push -u origin master:main --force
+
+
+部署：https://dash.infinityfree.com/accounts/if0_39616552
